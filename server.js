@@ -18,7 +18,18 @@ const io = new Server(httpServer, {
 });
 
 io.on("connection", (socket) => {
-  console.log("Server Connected");
+  console.log("Client Connected Id", socket.id);
+  socket.on("beginPath", (args) => {
+    socket.broadcast.emit("beginPath", args);
+  });
+
+  socket.on("drawing", (args) => {
+    socket.broadcast.emit("drawing", args);
+  });
+
+  socket.on("changeConfig", (args) => {
+    socket.broadcast.emit("changeConfig", args);
+  });
 });
 
 httpServer.listen(5000);
